@@ -9,9 +9,22 @@ def guess_number():
     """Guess the number"""
 
 
-TENTATIVAS = 10
+TENTATIVAS = 0
 rodada = 1
 NUMERO_SECRETO = random.randrange(1, 100)
+SCORE = 1000
+ACERTOU = False
+
+print("Qual nível de dificuldade?")
+print("(1) Fácil (2) Médio (3) Difícil")
+
+nivel = int(input("Defina o nível: "))
+if (nivel == 1):
+    TENTATIVAS = 20
+elif (nivel == 2):
+    TENTATIVAS = 10
+else:
+    TENTATIVAS = 5
 
 
 for rodada in range(1, TENTATIVAS + 1):
@@ -29,14 +42,20 @@ for rodada in range(1, TENTATIVAS + 1):
 
     if acertou:
         print("Você acertou!")
+        ACERTOU = True
         break
 
     elif maior:
+        SCORE = SCORE - abs(NUMERO_SECRETO - numero)
         print("Você errou pra mais!", )
 
     elif menor:
         print("Você errou pra menos!")
+        SCORE = SCORE - abs(NUMERO_SECRETO - numero)
     rodada = rodada + 1
-
-print("Fim de jogo, o palpite correto era {}!".format(NUMERO_SECRETO))
+if (ACERTOU == False):
+    print("Fim de jogo, o palpite correto era {}!".format(NUMERO_SECRETO))
+else:
+    print("Fim de jogo, o palpite correto era {}!. Sua pountação foi: {}".format(
+        NUMERO_SECRETO, SCORE))
 guess_number()
