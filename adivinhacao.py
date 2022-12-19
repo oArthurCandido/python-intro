@@ -1,60 +1,59 @@
-'''
-Jogo de adivinhação
-'''
-print("*********************************")
-print("Bem vindo ao jogo de adivinhação!")
-print("*********************************")
+""" Random number guessing game """
+
+import random
 
 
-def guess_number():
+def jogar():
     """Guess the number"""
+    tentativas = 0
+    rodada = 1
+    numero_secreto = random.randrange(1, 100)
+    score = 1000
+    acertou_na_mosca = False
 
+    print("Qual nível de dificuldade?")
+    print("(1) Fácil (2) Médio (3) Difícil")
 
-TENTATIVAS = 3
-rodada = 1
+    nivel = int(input("Defina o nível: "))
+    if nivel == 1:
+        tentativas = 20
+    elif nivel == 2:
+        tentativas = 10
+    else:
+        tentativas = 5
 
-while rodada <= TENTATIVAS:
-    print("Tentativa {} de {}".format(rodada,  TENTATIVAS))
-    NUMERO_SECRETO = 42
-    chute = input("Digite o seu numero: ")
-    numero = int(chute)
-    acertou = NUMERO_SECRETO == numero
-    maior = NUMERO_SECRETO < numero
-    menor = NUMERO_SECRETO > numero
+    for rodada in range(1, tentativas + 1):
+        print("Tentativa {} de {}".format(rodada,  tentativas))
 
-    if acertou:
-        print("Você acertou!")
-        print("Fim de jogo!")
-        rodada = 4
+        chute = input("Digite o seu numero: ")
+        numero = int(chute)
+        if (numero < 1 or numero > 100):
+            print("Você deve digitar um número entre 1 e 100!")
 
-    elif maior:
-        print("Você errou pra mais!", )
+            continue
+        acertou = numero_secreto == numero
+        maior = numero_secreto < numero
+        menor = numero_secreto > numero
 
-    elif menor:
-        print("Você errou pra menos!")
+        if acertou:
+            print("Você acertou!")
+            acertou_na_mosca = True
+            break
 
+        elif maior:
+            score = score - abs(numero_secreto - numero)
+            print("Você errou pra mais!", )
+
+        elif menor:
+            print("Você errou pra menos!")
+        score = score - abs(numero_secreto - numero)
     rodada = rodada + 1
-
-    if rodada == 4:
-        print("Fim de jogo!")
-
-
-guess_number()
-
-# minha_idade = 26
-# idade_namorado = 26
-# if (minha_idade == idade_namorado):
-#     print('temos idades iguais')
-# else:
-#     print('temos idades diferentes')
+    if acertou_na_mosca is False:
+        print("Fim de jogo, o palpite correto era {}!".format(numero_secreto))
+    else:
+        print("Fim de jogo, o palpite correto era {}!. Sua pountação foi: {}".format(
+            numero_secreto, score))
 
 
-# numero1 = 10
-# numero2 = 10
-# if (numero1 == numero2):
-#     print("São números iguais")
-
-
-# nome = "Nico"
-# sobrenome = "Steppat"
-# print(nome + sobrenome)
+if __name__ == "__main__":
+    jogar()
