@@ -17,27 +17,46 @@ class Conta:
     def deposita(self, valor):
         self.__saldo += valor
 
+    def __pode_sacar(self, valor_a_sacar):
+        return valor_a_sacar <= (self.__saldo + self.__limite)
+
     def saca(self, valor):
-        self.__saldo -= valor
+        if (self.__pode_sacar(valor)):
+            self.__saldo -= valor
+        else:
+            print("O valor {} ultrapassou seu saldo {} somado com seu limite {}, você pode sacar até {}".format(
+                valor, self.saldo, self.limite, (self.limite + self.saldo)))
 
     def transfere(self, valor, destino):
         self.saca(valor)
         destino.deposita(valor)
 
-    def get_limite(self):
+    @property
+    def limite(self):
         return self.__limite
 
-    def get_saldo(self):
-        return self.__saldo
-
-    def get_titular(self):
-        return self.__titular
-
-    def set_limite(self, limite):
+    @limite.setter
+    def limite(self, limite):
         limite_antigo = self.__limite
         self.__limite = limite
         print('Limite alterado com sucesso de: {} para: {}'.format(
             limite_antigo, limite))
+
+    @property
+    def saldo(self):
+        return self.__saldo
+
+    @property
+    def titular(self):
+        return self.__titular
+
+    @staticmethod
+    def codigo_banco():
+        return '001'
+
+    @staticmethod
+    def codigos_bancos():
+        return {'BB': '001', 'Caixa': '104', 'Bradesco': '237'}
 
 
 class Pessoa:
